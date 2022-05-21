@@ -8,17 +8,17 @@
 import UIKit
 import SnapKit
 
-class ColorViewController: UIViewController {
+final class ColorViewController: UIViewController {
     
     var delegate: ColorViewControllerDelegate!
     
     //MARK: - Properties
-    var redValue: CGFloat = CGFloat.random(in: 0.00 ... 1.00)
-    var blueValue: CGFloat = CGFloat.random(in: 0.00 ... 1.00)
-    var greenValue: CGFloat = CGFloat.random(in: 0.00 ... 1.00)
+    private var redValue: CGFloat = CGFloat.random(in: 0.00 ... 1.00)
+    private var blueValue: CGFloat = CGFloat.random(in: 0.00 ... 1.00)
+    private var greenValue: CGFloat = CGFloat.random(in: 0.00 ... 1.00)
     
     //MARK: - UI
-    let colorView: UIView = {
+    private let colorView: UIView = {
         let view = UIView()
         view.layer.cornerRadius = 20
         view.layer.borderWidth = 3
@@ -26,7 +26,7 @@ class ColorViewController: UIViewController {
         return view
     }()
     
-    let doneButton: UIButton = {
+    private let doneButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Done", for: .normal)
         button.tintColor = .white
@@ -35,7 +35,7 @@ class ColorViewController: UIViewController {
         return button
     }()
     
-    let mainStackView: UIStackView = {
+    private let mainStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.alignment = .fill
@@ -43,7 +43,7 @@ class ColorViewController: UIViewController {
         return stackView
     }()
     
-    let colorLabelStackView: UIStackView = {
+    private let colorLabelStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.distribution = .fillEqually
@@ -51,7 +51,7 @@ class ColorViewController: UIViewController {
         return stackView
     }()
     
-    let valueLabelStackView: UIStackView = {
+    private let valueLabelStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.distribution = .fillEqually
@@ -59,7 +59,7 @@ class ColorViewController: UIViewController {
         return stackView
     }()
     
-    let slidersStackView: UIStackView = {
+    private let slidersStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.distribution = .fillEqually
@@ -67,7 +67,7 @@ class ColorViewController: UIViewController {
         return stackView
     }()
     
-    let textFieldsStackVIew: UIStackView = {
+    private let textFieldsStackVIew: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.distribution = .fillEqually
@@ -76,46 +76,46 @@ class ColorViewController: UIViewController {
         return stackView
     }()
     
-    let redLabel: UILabel = {
+    private let redLabel: UILabel = {
         let label = UILabel()
         label.textColor = .white
         label.text = "Red:"
         return label
     }()
     
-    let greenLabel: UILabel = {
+    private let greenLabel: UILabel = {
         let label = UILabel()
         label.textColor = .white
         label.text = "Green:"
         return label
     }()
     
-    let blueLabel: UILabel = {
+    private let blueLabel: UILabel = {
         let label = UILabel()
         label.textColor = .white
         label.text = "Blue:"
         return label
     }()
     
-    let redValueLabel: UILabel = {
+    private let redValueLabel: UILabel = {
         let label = UILabel()
         label.textColor = .white
         return label
     }()
     
-    let greenValueLabel: UILabel = {
+    private let greenValueLabel: UILabel = {
         let label = UILabel()
         label.textColor = .white
         return label
     }()
     
-    let blueValueLabel: UILabel = {
+    private let blueValueLabel: UILabel = {
         let label = UILabel()
         label.textColor = .white
         return label
     }()
     
-    let redSlider: UISlider = {
+    private let redSlider: UISlider = {
         let slider = UISlider()
         slider.minimumValue = 0.00
         slider.maximumValue = 1.00
@@ -124,7 +124,7 @@ class ColorViewController: UIViewController {
         return slider
     }()
     
-    let greenSlider: UISlider = {
+    private let greenSlider: UISlider = {
         let slider = UISlider()
         slider.minimumValue = 0.00
         slider.maximumValue = 1.00
@@ -133,7 +133,7 @@ class ColorViewController: UIViewController {
         return slider
     }()
     
-    let blueSlider: UISlider = {
+    private let blueSlider: UISlider = {
         let slider = UISlider()
         slider.minimumValue = 0.00
         slider.maximumValue = 1.00
@@ -142,7 +142,7 @@ class ColorViewController: UIViewController {
         return slider
     }()
     
-    let redValueTextField: UITextField = {
+    private let redValueTextField: UITextField = {
         let textField = UITextField()
         textField.borderStyle = .roundedRect
         textField.textAlignment = .center
@@ -150,7 +150,7 @@ class ColorViewController: UIViewController {
         return textField
     }()
     
-    let greenValueTextField: UITextField = {
+    private let greenValueTextField: UITextField = {
         let textField = UITextField()
         textField.borderStyle = .roundedRect
         textField.textAlignment = .center
@@ -158,7 +158,7 @@ class ColorViewController: UIViewController {
         return textField
     }()
     
-    let blueValueTextField: UITextField = {
+    private let blueValueTextField: UITextField = {
         let textField = UITextField()
         textField.borderStyle = .roundedRect
         textField.textAlignment = .center
@@ -166,7 +166,7 @@ class ColorViewController: UIViewController {
         return textField
     }()
     
-    let toolbar: UIToolbar = {
+    private let toolbar: UIToolbar = {
         let space = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         let next = UIBarButtonItem(title: "Next", style: .done, target: self, action: #selector(nextPressed))
         let done = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(donePressed))
@@ -326,28 +326,17 @@ class ColorViewController: UIViewController {
 }
 
 //MARK: - UITextFieldDelegate
-
 extension ColorViewController: UITextFieldDelegate {
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        view.endEditing(true)
+    }
+    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
     }
-    
-    //    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-    //        guard let text = textField.text, let number = Float(text) else { return false }
-    //        if textField == redValueTextField && number <= 1 {
-    //            redValue = CGFloat(number)
-    //            print(redValue)
-    //            checkColorAndValue()
-    //        } else if textField == greenValueTextField && number <= 1 {
-    //            greenValue = CGFloat(number)
-    //            checkColorAndValue()
-    //        } else if textField == blueValueTextField && number <= 1 {
-    //            blueValue = CGFloat(number)
-    //            checkColorAndValue()
-    //        }
-    //    return true
-    //    }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
         guard let text = textField.text, let number = Float(text) else { return }
