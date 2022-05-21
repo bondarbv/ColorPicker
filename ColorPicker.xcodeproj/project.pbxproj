@@ -8,9 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		473B1761283834AA00BC37EC /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 473B1760283834AA00BC37EC /* .gitignore */; };
+		473B1763283837FA00BC37EC /* StartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 473B1762283837FA00BC37EC /* StartViewController.swift */; };
 		47842AB8283832EB002285BE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47842AB7283832EB002285BE /* AppDelegate.swift */; };
 		47842ABA283832EB002285BE /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47842AB9283832EB002285BE /* SceneDelegate.swift */; };
-		47842ABC283832EB002285BE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47842ABB283832EB002285BE /* ViewController.swift */; };
+		47842ABC283832EB002285BE /* ColorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47842ABB283832EB002285BE /* ColorViewController.swift */; };
 		47842AC1283832EC002285BE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 47842AC0283832EC002285BE /* Assets.xcassets */; };
 		47842AC4283832EC002285BE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 47842AC2283832EC002285BE /* LaunchScreen.storyboard */; };
 		82BC1E6854798C05F6271050 /* Pods_ColorPicker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FCB0BAC8051D7A99E8190C2 /* Pods_ColorPicker.framework */; };
@@ -20,10 +21,11 @@
 		0899BBA968B0FDC2A3E658B2 /* Pods-ColorPicker.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ColorPicker.release.xcconfig"; path = "Target Support Files/Pods-ColorPicker/Pods-ColorPicker.release.xcconfig"; sourceTree = "<group>"; };
 		1FCB0BAC8051D7A99E8190C2 /* Pods_ColorPicker.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ColorPicker.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		473B1760283834AA00BC37EC /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		473B1762283837FA00BC37EC /* StartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartViewController.swift; sourceTree = "<group>"; };
 		47842AB4283832EB002285BE /* ColorPicker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ColorPicker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		47842AB7283832EB002285BE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		47842AB9283832EB002285BE /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		47842ABB283832EB002285BE /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		47842ABB283832EB002285BE /* ColorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorViewController.swift; sourceTree = "<group>"; };
 		47842AC0283832EC002285BE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		47842AC3283832EC002285BE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		47842AC5283832EC002285BE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -74,7 +76,8 @@
 			children = (
 				47842AB7283832EB002285BE /* AppDelegate.swift */,
 				47842AB9283832EB002285BE /* SceneDelegate.swift */,
-				47842ABB283832EB002285BE /* ViewController.swift */,
+				47842ABB283832EB002285BE /* ColorViewController.swift */,
+				473B1762283837FA00BC37EC /* StartViewController.swift */,
 				473B1760283834AA00BC37EC /* .gitignore */,
 				47842AC0283832EC002285BE /* Assets.xcassets */,
 				47842AC2283832EC002285BE /* LaunchScreen.storyboard */,
@@ -206,7 +209,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				47842ABC283832EB002285BE /* ViewController.swift in Sources */,
+				47842ABC283832EB002285BE /* ColorViewController.swift in Sources */,
+				473B1763283837FA00BC37EC /* StartViewController.swift in Sources */,
 				47842AB8283832EB002285BE /* AppDelegate.swift in Sources */,
 				47842ABA283832EB002285BE /* SceneDelegate.swift in Sources */,
 			);
@@ -358,6 +362,7 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -387,6 +392,7 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
