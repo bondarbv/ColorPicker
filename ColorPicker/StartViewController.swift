@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol ColorViewControllerDelegate {
+    func changeViewColor(red: CGFloat, green: CGFloat, blue: CGFloat)
+}
+
 class StartViewController: UIViewController {
 
     override func viewDidLoad() {
@@ -17,6 +21,13 @@ class StartViewController: UIViewController {
     
     @objc private func chooseColor() {
         let vc = ColorViewController()
+        vc.delegate = self
         navigationController?.pushViewController(vc, animated: true)
+    }
+}
+
+extension StartViewController: ColorViewControllerDelegate {
+    func changeViewColor(red: CGFloat, green: CGFloat, blue: CGFloat) {
+        self.view.backgroundColor = UIColor(red: red, green: green, blue: blue, alpha: 1.0)
     }
 }

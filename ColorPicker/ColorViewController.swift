@@ -10,16 +10,19 @@ import SnapKit
 
 class ColorViewController: UIViewController {
     
+    var delegate: ColorViewControllerDelegate!
+    
     //MARK: - Properties
-    var redValue: Float!
-    var blueValue: Float!
-    var greenValue: Float!
+    var redValue: CGFloat = CGFloat.random(in: 0.00 ... 1.00)
+    var blueValue: CGFloat = CGFloat.random(in: 0.00 ... 1.00)
+    var greenValue: CGFloat = CGFloat.random(in: 0.00 ... 1.00)
     
     //MARK: - UI
     let colorView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor(red: 30/255, green: 55/255, blue: 115/255, alpha: 1.0)
         view.layer.cornerRadius = 20
+        view.layer.borderWidth = 3
+        view.layer.borderColor = UIColor.white.cgColor
         return view
     }()
     
@@ -28,12 +31,12 @@ class ColorViewController: UIViewController {
         button.setTitle("Done", for: .normal)
         button.tintColor = .white
         button.titleLabel?.font = UIFont.systemFont(ofSize: 35)
-        button.addTarget(self, action: #selector(doneButtonPressed), for: .touchUpInside)
+        button.addTarget(self, action: #selector(saveColor), for: .touchUpInside)
         return button
     }()
     
     let mainStackView: UIStackView = {
-       let stackView = UIStackView()
+        let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.alignment = .fill
         stackView.distribution = .fillProportionally
@@ -67,9 +70,9 @@ class ColorViewController: UIViewController {
     let textFieldsStackVIew: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
-        stackView.distribution = .equalCentering
+        stackView.distribution = .fillEqually
         stackView.alignment = .center
-        stackView.spacing = -5
+        stackView.spacing = 10
         return stackView
     }()
     
@@ -88,7 +91,7 @@ class ColorViewController: UIViewController {
     }()
     
     let blueLabel: UILabel = {
-       let label = UILabel()
+        let label = UILabel()
         label.textColor = .white
         label.text = "Blue:"
         return label
@@ -97,26 +100,23 @@ class ColorViewController: UIViewController {
     let redValueLabel: UILabel = {
         let label = UILabel()
         label.textColor = .white
-        label.text = "0.66"
         return label
     }()
     
     let greenValueLabel: UILabel = {
-       let label = UILabel()
+        let label = UILabel()
         label.textColor = .white
-        label.text = "0.55"
         return label
     }()
     
     let blueValueLabel: UILabel = {
         let label = UILabel()
         label.textColor = .white
-        label.text = "0.44"
         return label
     }()
     
     let redSlider: UISlider = {
-       let slider = UISlider()
+        let slider = UISlider()
         slider.minimumValue = 0.00
         slider.maximumValue = 1.00
         slider.minimumTrackTintColor = .systemRed
@@ -125,7 +125,7 @@ class ColorViewController: UIViewController {
     }()
     
     let greenSlider: UISlider = {
-       let slider = UISlider()
+        let slider = UISlider()
         slider.minimumValue = 0.00
         slider.maximumValue = 1.00
         slider.minimumTrackTintColor = .systemGreen
@@ -134,7 +134,7 @@ class ColorViewController: UIViewController {
     }()
     
     let blueSlider: UISlider = {
-       let slider = UISlider()
+        let slider = UISlider()
         slider.minimumValue = 0.00
         slider.maximumValue = 1.00
         slider.minimumTrackTintColor = .systemBlue
@@ -143,18 +143,18 @@ class ColorViewController: UIViewController {
     }()
     
     let redValueTextField: UITextField = {
-       let textField = UITextField()
+        let textField = UITextField()
         textField.borderStyle = .roundedRect
         textField.textAlignment = .center
-        textField.text = "0.66"
+        textField.keyboardType = .decimalPad
         return textField
     }()
     
     let greenValueTextField: UITextField = {
-       let textField = UITextField()
+        let textField = UITextField()
         textField.borderStyle = .roundedRect
         textField.textAlignment = .center
-        textField.text = "0.55"
+        textField.keyboardType = .decimalPad
         return textField
     }()
     
@@ -162,39 +162,99 @@ class ColorViewController: UIViewController {
         let textField = UITextField()
         textField.borderStyle = .roundedRect
         textField.textAlignment = .center
-        textField.text = "0.44"
+        textField.keyboardType = .decimalPad
         return textField
+    }()
+    
+    let toolbar: UIToolbar = {
+        let space = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let next = UIBarButtonItem(title: "Next", style: .done, target: self, action: #selector(nextPressed))
+        let done = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(donePressed))
+        
+        let toolbar = UIToolbar()
+        toolbar.setItems([next, space, done], animated: false)
+        toolbar.barStyle = .default
+        toolbar.isTranslucent = true
+        toolbar.tintColor = .systemBlue
+        toolbar.sizeToFit()
+        toolbar.isUserInteractionEnabled = true
+        return toolbar
     }()
     
     //MARK: - ViewLifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.setHidesBackButton(true, animated: true)
+        redValueTextField.delegate = self
+        greenValueTextField.delegate = self
+        blueValueTextField.delegate = self
+        
+        redValueTextField.inputAccessoryView = toolbar
+        greenValueTextField.inputAccessoryView = toolbar
+        blueValueTextField.inputAccessoryView = toolbar
+        
+        navigationItem.setHidesBackButton(true, animated: false)
         view.backgroundColor = #colorLiteral(red: 0.1896009147, green: 0.4289529324, blue: 0.6825695634, alpha: 1)
+        checkColorAndValue()
         layout()
     }
     
     //MARK: - Methods
-    @objc private func doneButtonPressed() {
+    @objc private func saveColor() {
+        view.endEditing(true)
+        delegate.changeViewColor(red: redValue, green: greenValue, blue: blueValue)
         navigationController?.popViewController(animated: true)
     }
     
+    @objc private func donePressed() {
+        if redValueTextField.isEditing {
+            redValueTextField.resignFirstResponder()
+        } else if greenValueTextField.isEditing {
+            greenValueTextField.resignFirstResponder()
+        } else if blueValueTextField.isEditing {
+            blueValueTextField.resignFirstResponder()
+        }
+    }
+    
+    @objc private func nextPressed() {
+        if redValueTextField.isEditing {
+            greenValueTextField.becomeFirstResponder()
+        } else if greenValueTextField.isEditing {
+            blueValueTextField.becomeFirstResponder()
+        } else if blueValueTextField.isEditing {
+            redValueTextField.becomeFirstResponder()
+        }
+    }
+    
     @objc private func redValueChanged() {
-        redValue = (round(redSlider.value * 100) / 100)
-        redValueLabel.text = String(round(redSlider.value * 100) / 100)
-        redValueTextField.text = String(round(redSlider.value * 100) / 100)
+        redValue = CGFloat((round(redSlider.value * 100) / 100))
+        checkColorAndValue()
     }
     
     @objc private func greenValueChanged() {
-        greenValue = (round(greenSlider.value * 100) / 100)
-        greenValueLabel.text = String(round(greenSlider.value * 100) / 100)
-        greenValueTextField.text = String(round(greenSlider.value * 100) / 100)
+        greenValue = CGFloat((round(greenSlider.value * 100) / 100))
+        checkColorAndValue()
     }
     
     @objc private func blueValueChanged() {
-        blueValue = (round(blueSlider.value * 100) / 100)
-        blueValueLabel.text = String(round(blueSlider.value * 100) / 100)
+        blueValue = CGFloat((round(blueSlider.value * 100) / 100))
+        checkColorAndValue()
+    }
+    
+    private func checkColorAndValue() {
+        redSlider.value = Float(redValue)
+        greenSlider.value = Float(greenValue)
+        blueSlider.value = Float(blueValue)
+        
+        
+        redValueLabel.text = String(round(redValue * 100) / 100)
+        greenValueLabel.text = String(round(greenValue * 100) / 100)
+        blueValueLabel.text = String(round(blueValue * 100) / 100)
+        
+        redValueTextField.text = String(round(redSlider.value * 100) / 100)
+        greenValueTextField.text = String(round(greenSlider.value * 100) / 100)
         blueValueTextField.text = String(round(blueSlider.value * 100) / 100)
+        
+        colorView.backgroundColor = UIColor(red: redValue * 255 / 255, green: greenValue * 255 / 255, blue: blueValue * 255 / 255, alpha: 1.0)
     }
     
     //MARK: - Layout
@@ -261,7 +321,46 @@ class ColorViewController: UIViewController {
         }
         
     }
-
-
+    
+    
 }
 
+//MARK: - UITextFieldDelegate
+
+extension ColorViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
+    //    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+    //        guard let text = textField.text, let number = Float(text) else { return false }
+    //        if textField == redValueTextField && number <= 1 {
+    //            redValue = CGFloat(number)
+    //            print(redValue)
+    //            checkColorAndValue()
+    //        } else if textField == greenValueTextField && number <= 1 {
+    //            greenValue = CGFloat(number)
+    //            checkColorAndValue()
+    //        } else if textField == blueValueTextField && number <= 1 {
+    //            blueValue = CGFloat(number)
+    //            checkColorAndValue()
+    //        }
+    //    return true
+    //    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        guard let text = textField.text, let number = Float(text) else { return }
+        if textField == redValueTextField && number <= 1 {
+            redValue = CGFloat(number)
+            print(redValue)
+            checkColorAndValue()
+        } else if textField == greenValueTextField && number <= 1 {
+            greenValue = CGFloat(number)
+            checkColorAndValue()
+        } else if textField == blueValueTextField && number <= 1 {
+            blueValue = CGFloat(number)
+            checkColorAndValue()
+        }
+    }
+}
