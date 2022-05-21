@@ -11,7 +11,7 @@ protocol ColorViewControllerDelegate {
     func changeViewColor(red: CGFloat, green: CGFloat, blue: CGFloat)
 }
 
-class StartViewController: UIViewController {
+final class StartViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
